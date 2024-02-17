@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { ScaleLoader } from 'react-spinners';
 const axios = require('axios');
+import { useRouter } from 'next/router'
 
 const RestaurantMenu = () => {
+    const router = useRouter()
     const [menuDetails, setMenuDetails] = useState({
         dishName: 'Spaghetti Carbonara',
         dishImage: '', // Placeholder image
@@ -76,9 +78,10 @@ const RestaurantMenu = () => {
     };
 
     const handleSave = () => {
+        setLoading(true);
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-
+        
         const raw = JSON.stringify({
             "mobile_number": "9137357003",
             "photos": [menuDetails.dishImage],
@@ -98,8 +101,13 @@ const RestaurantMenu = () => {
 
         fetch("http://localhost:5000/menu", requestOptions)
             .then((response) => response.text())
-            .then((result) => console.log(result))
+            .then((result) => {
+                console.log(result)
+                router.push("/items");
+
+            })
             .catch((error) => console.error(error));
+        setLoading(false);
         console.log(menuDetails);
     };
 
