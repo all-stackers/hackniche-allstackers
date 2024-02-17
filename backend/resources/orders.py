@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.orders import Orders as OrderModel
+from models.foodtruck import FoodTruck as FoodTruckModel
 import json
 import datetime
 from twilio.rest import Client
@@ -80,7 +81,52 @@ class UpdateOrderStatus(Resource):
                 # cheese
                 # paneer
                 # tomato
+
+                response = FoodTruckModel.get_foodtruck(mobile_number="9137357003")
+                if response["error"]:
+                    return response
                 
+                inventory = response["data"]["inventory"]
+                new_inventory = []
+                for item in inventory:
+                    if item["name"] == "Pizza Dough":
+                        # quantity is like 10 kg
+                        # separate the number and text then reduce the number by 1 and again join them
+                        quantity = item["quantity"]
+                        quantity = quantity.split(" ")
+                        quantity[0] = str(int(quantity[0]) - 1)
+                        item["quantity"] = " ".join(quantity)
+                        print(item["quantity"])
+
+                    if item["name"] == "Cheese":
+                        quantity = item["quantity"]
+                        quantity = quantity.split(" ")
+                        quantity[0] = str(int(quantity[0]) - 1)
+                        item["quantity"] = " ".join(quantity)
+
+                    if item["name"] == "Paneer":
+                        quantity = item["quantity"]
+                        quantity = quantity.split(" ")
+                        quantity[0] = str(int(quantity[0]) - 1)
+                        item["quantity"] = " ".join(quantity)
+
+                    if item["name"] == "Tomato":
+                        quantity = item["quantity"]
+                        quantity = quantity.split(" ")
+                        quantity[0] = str(int(quantity[0]) - 1)
+                        item["quantity"] = " ".join(quantity)
+
+                    if item["name"] == "Pizza Sauce":
+                        quantity = item["quantity"]
+                        quantity = quantity.split(" ")
+                        quantity[0] = str(int(quantity[0]) - 3)
+                        item["quantity"] = " ".join(quantity)
+
+                    new_inventory.append(item)
+                    
+                response = FoodTruckModel.update_full_inventory(mobile_number="9137357003", inventory=new_inventory)
+                if response["error"]:
+                    return response
             
             return {"error": False, "data": json.loads(response["data"].to_json())}
 
@@ -97,6 +143,20 @@ class OrderStatus(Resource):
         
         status = response["data"]["status"]
         if status == "pending":
+            return {"error": False, "data": True}
+        
+        return {"error": False, "data": False}
+    
+class OrderStatus2(Resource):
+    def get(self):
+        order_id = request.args.get('order_id')
+        response = OrderModel.get_order_by_id(order_id)
+
+        if response["error"]:
+            return response
+        
+        status = response["data"]["status"]
+        if status == "completed":
             return {"error": False, "data": True}
         
         return {"error": False, "data": False}
