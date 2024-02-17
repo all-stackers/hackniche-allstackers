@@ -79,7 +79,26 @@ const Inventory = () => {
 
       <div className="flex">
         <div className=" w-[350px] border-r-[1px] shadow-l p-[20px] pr-[30px]">
-          <h1 className="mb-[10px] text-gray-800 text-[26px]">Ball Papper</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="mb-[10px] text-gray-800 text-[26px]">Ball Papper</h1>
+            <button className="items-center bg-red-200 border-red-500 px-[10px] border-[1px] flex rounded-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-[20px] h-[20px]"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
+                />
+              </svg>
+              Ask AI
+            </button>
+          </div>
           <div className="flex justify-between my-[10px]">
             <div>
               <h1 className="font-bold text-gray-600">Inventory:</h1>
@@ -90,8 +109,21 @@ const Inventory = () => {
               <p className="">November 8, 2024</p>
             </div>
           </div>
+          <div className="flex justify-center items-center my-[10px]">
+            <span className="h-[10px] w-[10px] rounded-full bg-orange-400"></span>
+            <p className="text-gray-600 ml-[10px]">Low Inventory</p>
+          </div>
+          <div className="flex justify-center items-center my-[10px]">
+            <span className="h-[10px] w-[10px] rounded-full bg-red-600"></span>
+            <p className="text-gray-600 ml-[10px]">Expired</p>
+          </div>
+          <div className="flex justify-center items-center my-[10px]">
+            <span className="h-[10px] w-[10px] rounded-full bg-red-400"></span>
+            <p className="text-gray-600 ml-[10px]">About to Expire</p>
+          </div>
+
           <img
-            className=" mx-auto h-[200px] w-[200px] my-[10px]"
+            className=" mx-auto h-[200px] w-[200px] mt-[60px] mb-[30px]"
             src="/assets/images/tomato.png"
           ></img>
           <div className="flex justify-center gap-x-[15px] my-[15px] items-center">
@@ -136,9 +168,9 @@ const Inventory = () => {
           </div>
         </div>
 
-        <div className="px-[10px] w-[700px]">
-          <div className="flex justify-between">
-            <h1 className="font-bold">Inventory List</h1>
+        <div className="min-w-[700px]">
+          <div className="flex justify-between px-[20px] mb-[20px] items-center">
+            <em className="font-bold text-gray-600 text-xl">Inventory List</em>
             <button className="px-[30px] shadow-lg py-[5px] border rounded-full">
               Add Item
             </button>
@@ -147,56 +179,64 @@ const Inventory = () => {
             <table className="w-full mt-4">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Quantity</th>
-                  <th>Last Updated</th>
-                  <th>Action</th>
+                  <th className="px-4 py-2">ID</th>
+                  <th className="px-4 py-2 text-start">Name</th>
+                  <th className="px-4 py-2">Last Updated</th>
+                  <th className="px-4 py-2">Quantity</th>
+                  <th className="px-4 py-2">Action</th>
                 </tr>
               </thead>
               <tbody className="">
                 {inventoryItems.map((item) => (
-                  <tr className="" key={item.id}>
-                    <td className="text-center">{item.id}</td>
-                    <td className="text-center">{item.name}</td>
-                    <td className="text-center">{item.quantity}</td>
-                    <td className="text-center">{item.last_updated}</td>
-                    <td className="text-center">
+                  <tr key={item.id} className="border-b hover:bg-gray-200">
+                    <td className="px-4 py-2 text-center">#{item.id}</td>
+                    <td className="px-4 py-2">{item.name}</td>
+                    <td className="px-4 py-2 text-center">
+                      {item.last_updated}
+                    </td>
+                    <td className="px-4 py-2 text-center">{item.quantity}</td>
+                    <td className="px-4 py-2 text-center">
                       <button
                         onClick={() => handleEdit(item.id)}
-                        className="mr-[10px]"
+                        className="mr-2 focus:outline-none"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
                           stroke="currentColor"
-                          class="w-6 h-6"
+                          className="w-6 h-6 text-blue-500"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 4v.01M12 8v.01M12 16v.01M12 20v.01M19 11a7 7 0 10-14 0 7 7 0 0014 0z"
                           />
                         </svg>
                       </button>
                       <button
                         onClick={() => handleDelete(item.id)}
-                        className=""
+                        className="focus:outline-none"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
                           stroke="currentColor"
-                          class="w-6 h-6"
+                          className="w-6 h-6 text-red-500"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
                           />
                         </svg>
                       </button>
