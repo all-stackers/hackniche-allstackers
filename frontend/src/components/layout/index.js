@@ -6,7 +6,7 @@ const Layout = ({ children }) => (
     <Navbar />
     <div className="flex">
       <Sidebar />
-      <div className="flex-grow">{children}</div>
+      <div className="w-full">{children}</div>
     </div>
   </div>
 );
