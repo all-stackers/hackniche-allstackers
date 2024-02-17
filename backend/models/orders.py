@@ -36,6 +36,15 @@ class Orders(db.Document):
             return {"error": True, "message": str(e)}
         
     @classmethod
+    def get_order_by_id(cls, order_id):
+        try:
+            order = cls.objects(order_id=order_id).first()
+            return {"error": False, "data": order}
+        
+        except Exception as e:
+            return {"error": True, "message": str(e)}
+        
+    @classmethod
     def update_order_status(cls, args):
         try:
             order = cls.objects(order_id=args["order_id"]).first()
@@ -43,7 +52,6 @@ class Orders(db.Document):
                 return {"error": True, "message": "Order not found"}
             
             order.update(status=args["status"])
-            # return the updated orders list
             return {"error": False, "data": cls.objects()}
         
         except Exception as e:

@@ -8,10 +8,11 @@ from flask_cors import CORS
 import os
 
 from resources.foodtruck import (FoodTruck, Menu, UploadImage, Inventory, UpdateInventory)
-from resources.orders import (Orders, UpdateOrderStatus)
+from resources.orders import (Orders, UpdateOrderStatus, OrderStatus, OrderStatus2)
 from resources.Post import (Hashtags, Caption)
 from resources.Cloudinary import Cloudinary
 from resources.AskAI import AskAI
+from resources.Notification import Notification
 import requests
 import json
 import time
@@ -35,6 +36,9 @@ api.add_resource(Hashtags, "/hashtag")
 api.add_resource(Caption, "/caption")
 api.add_resource(Cloudinary, "/cloudinary")
 api.add_resource(AskAI, "/askAI")
+api.add_resource(Notification, '/notification')
+api.add_resource(OrderStatus, '/getorderstatus')
+api.add_resource(OrderStatus2, '/getorderstatus2')
 
 
 
