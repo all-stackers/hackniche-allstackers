@@ -10,21 +10,23 @@ const Success = () => {
   const router = useRouter();
   const { orderId } = router.query;
 
-  console.log(orderId);
+  const checkOrderStatus = () => {
+    fetch(`http://localhost:5000/getorderstatus?order_id=${orderId}`)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result.data);
+        if (result.data) {
+          toast.success("Order confirmed", {
+            autoClose: 1000,
+            onClose: () => router.push(`/user/order/details/${orderId}`),
+          });
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Call the API
-      fetch("http://localhost:5000/getorderstatus/" + orderId)
-        .then((response) => response.json())
-        .then((data) => {
-          // If response is true, stop blinking and show toaster
-          if (data.status === true) {
-            clearInterval(interval);
-            setShowToast(true);
-          }
-        })
-        .catch((error) => console.error("Error:", error));
-    }, 5000);
+    const interval = setInterval(checkOrderStatus, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -53,12 +55,12 @@ const Success = () => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"
               />
             </svg>
@@ -75,15 +77,16 @@ const Success = () => {
         </div>
         <div className="flex flex-col my-[30px] justify-center items-center">
           <h1 className="my-[10px] text-2xl">Waiting for Confirmation</h1>
-          <span class="loader2"></span>
+          <span className="loader2"></span>
           <p className="text-gray-600">
             Your order will get confirmed by admin
           </p>
         </div>
         <button className="w-full mt-[200px] py-[10px] rounded-lg bg-red-500 text-white text-[18px]">
-          Cancle
+          Cancel
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 };
