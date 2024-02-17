@@ -66,9 +66,10 @@ const RestaurantMenu = () => {
                         category: result.data.food_details.category,
                         healthMetrics: result.data.food_details.health_metrics
                     });
-                    setLoading(false);
+                    
                 })
-                .catch(error => console.log('error', error));
+                .catch(error => console.log('error', error))
+                .finally(() => setLoading(false));
         } else {
             console.warn('No image selected');
         }
