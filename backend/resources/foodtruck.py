@@ -23,6 +23,18 @@ class FoodTruck(Resource):
 
         return {"error": False, "data": json.loads(data)}
     
+    def get(self):
+        # get the mobile number from url params
+        mobile_number = request.args.get('mobile_number')
+
+        response = FoodTruckModel.get_foodtruck(mobile_number)
+        if response["error"]:
+            return {"message": response["message"]}, 400
+        
+        data = response["data"].to_json()
+
+        return {"error": False, "data": json.loads(data)}
+    
 class Menu(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -101,3 +113,47 @@ class UploadImage(Resource):
         }
 
         return {"error": False, "data": data}
+    
+class Inventory(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('mobile_number', type=str, required=True)
+        parser.add_argument("name", type=str, required=True)
+        parser.add_argument('photo', type=str, required=True)
+        parser.add_argument('quantity', type=str, required=True)
+        parser.add_argument('last_updated', type=str, required=True)
+
+        args = parser.parse_args()
+
+        inventory_item = {
+            "name": args['name'],
+            "photo": args['photo'],
+            "quantity": args['quantity'],
+            "last_updated": args['last_updated']
+        }
+
+        response = FoodTruckModel.add_to_inventory(args['mobile_number'], inventory_item)
+        if response["error"]:
+            return {"message": response["message"]}, 400
+        
+        data = response["data"].to_json()
+
+        return {"error": False, "data": json.loads(data)}
+
+class UpdateInventory(Resource):
+    def post(self):
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('mobile_number', type=str, required=True)
+        parser.add_argument("id", type=str, required=True)
+        parser.add_argument('quantity', type=str, required=True)
+
+        args = parser.parse_args()
+
+        response = FoodTruckModel.update_inventory(args['mobile_number'], args['id'], args['quantity'])
+        if response["error"]:
+            return {"message": response["message"]}, 400
+        
+        data = response["data"].to_json()
+
+        return {"error": False, "data": json.loads(data)}
