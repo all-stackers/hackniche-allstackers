@@ -72,6 +72,19 @@ class Menu(Resource):
 
         # return {"error": False, "data": image_url}
 
+    def get(self):
+        mobile_number = request.args.get('mobile_number')
+
+        response = FoodTruckModel.get_foodtruck(mobile_number)
+        if response["error"]:
+            return {"message": response["message"]}, 400
+        
+        data = response["data"].to_json()
+
+        menu = json.loads(data)["menu"]
+
+        return menu
+
 class UploadImage(Resource):
     def post(self):
         image = request.files['image']
