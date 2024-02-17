@@ -1,59 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Inventory = () => {
-  const [inventoryItems, setInventoryItems] = useState([
-    {
-      id: 1,
-      name: "Tomato",
-      quantity: 100,
-      last_updated: "November 8, 2024",
-    },
-    {
-      id: 2,
-      name: "Lettuce",
-      quantity: 50,
-      last_updated: "November 8, 2024",
-    },
-    {
-      id: 3,
-      name: "Onion",
-      quantity: 70,
-      last_updated: "November 8, 2024",
-    },
-    {
-      id: 4,
-      name: "Cheese",
-      quantity: 30,
-      last_updated: "November 8, 2024",
-    },
-    {
-      id: 5,
-      name: "Beef",
-      quantity: 40,
-      last_updated: "November 8, 2024",
-    },
-    {
-      id: 6,
-      name: "Chicken",
-      quantity: 60,
-      last_updated: "November 8, 2024",
-    },
-    {
-      id: 7,
-      name: "Bread",
-      quantity: 80,
-      last_updated: "November 8, 2024",
-    },
-    {
-      id: 8,
-      name: "Sauce",
-      quantity: 90,
-      last_updated: "November 8, 2024",
-    },
-  ]);
+  const [inventoryItems, setInventoryItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("1");
 
   const handleEdit = (id) => {
     // Handle edit action here
@@ -64,6 +18,96 @@ const Inventory = () => {
     // Handle delete action here
     console.log("Delete item with ID:", id);
   };
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item.id);
+  };
+
+  const fetch_inventory = () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("http://localhost:5000/foodtruck?mobile_number=9137357003", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        setInventoryItems(result.data.inventory);
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  const handleIcrement = () => {
+    let index = inventoryItems.findIndex(item => item.id == selectedItem);
+    let item = inventoryItems[index];
+
+    let quantity = item.quantity.split(" ")[0];
+    let text = item.quantity.split(" ")[1];
+
+    quantity = parseInt(quantity) + 1;
+
+    item.quantity = `${quantity} ${text}`;
+
+    let newInventoryItems = [...inventoryItems];
+    newInventoryItems[index] = item;
+
+    setInventoryItems(newInventoryItems);
+  };
+
+  const handleDecrement = () => {
+    let index = inventoryItems.findIndex(item => item.id == selectedItem);
+    let item = inventoryItems[index];
+
+    let quantity = item.quantity.split(" ")[0];
+    let text = item.quantity.split(" ")[1];
+
+    quantity = parseInt(quantity);
+    if (quantity > 0) {
+      quantity = quantity - 1;
+    }
+
+    item.quantity = `${quantity} ${text}`;
+
+    let newInventoryItems = [...inventoryItems];
+    newInventoryItems[index] = item;
+
+    setInventoryItems(newInventoryItems);
+  };
+
+  const handleSave = () => {
+    const id = selectedItem;
+    const quantity = inventoryItems.find(item => item.id == id).quantity;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "mobile_number": "9137357003",
+      "id": id,
+      "quantity": quantity
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:5000/updateInventory", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        toast.success('Inventory updated successfully', {
+          autoClose: 1000,
+        });
+      })
+      .catch(error => console.log('error', error));
+  };
+
+  useEffect(() => {
+    fetch_inventory();
+  }, []);
 
   return (
     <div className="flex-col p-[15px]">
@@ -78,9 +122,9 @@ const Inventory = () => {
       </div>
 
       <div className="flex">
-        <div className=" w-[350px] border-r-[1px] shadow-l p-[20px] pr-[30px]">
+        {inventoryItems.length > 1 && <div className=" w-[450px] border-r-[1px] shadow-l p-[20px] pr-[30px]">
           <div className="flex justify-between items-center">
-            <h1 className="mb-[10px] text-gray-800 text-[26px]">Ball Papper</h1>
+            <h1 className="mb-[10px] text-gray-800 text-[26px]">{inventoryItems.find(item => item.id == selectedItem).name}</h1>
             <button className="items-center bg-red-200 border-red-500 px-[10px] border-[1px] flex rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -102,14 +146,21 @@ const Inventory = () => {
           <div className="flex justify-between my-[10px]">
             <div>
               <h1 className="font-bold text-gray-600">Inventory:</h1>
-              <p className="text-blue-500 font-bold">664 items</p>
+              <p className="text-blue-500 font-bold">
+                {/* get the selected item and find the item in the inventory items */}
+                {inventoryItems.find(item => item.id == selectedItem).quantity}
+              </p>
             </div>
+            {/* access the selected item from the inventory item */}
+
+            
             <div>
               <h1 className="font-bold text-gray-600">Last Updated:</h1>
-              <p className="">November 8, 2024</p>
+              <p className="">{inventoryItems.find(item => item.id == selectedItem).last_updated}</p>
             </div>
           </div>
-          <div className="flex justify-center items-center my-[10px]">
+
+          {/* <div className="flex justify-center items-center my-[10px]">
             <span className="h-[10px] w-[10px] rounded-full bg-orange-400"></span>
             <p className="text-gray-600 ml-[10px]">Low Inventory</p>
           </div>
@@ -120,14 +171,14 @@ const Inventory = () => {
           <div className="flex justify-center items-center my-[10px]">
             <span className="h-[10px] w-[10px] rounded-full bg-red-400"></span>
             <p className="text-gray-600 ml-[10px]">About to Expire</p>
-          </div>
+          </div> */}
 
           <img
             className=" mx-auto h-[200px] w-[200px] mt-[60px] mb-[30px]"
-            src="/assets/images/tomato.png"
+            src={inventoryItems.find(item => item.id == selectedItem).photo}
           ></img>
           <div className="flex justify-center gap-x-[15px] my-[15px] items-center">
-            <button className="text-red-500 font-bold p-[5px] border shadow-lg rounded-full">
+            <button className="text-red-500 font-bold p-[5px] border shadow-lg rounded-full" onClick={handleDecrement}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -143,8 +194,8 @@ const Inventory = () => {
                 />
               </svg>
             </button>
-            <h1 className="text-2xl">5 kg</h1>
-            <button className="text-green-500 font-bold p-[5px] shadow-lg border rounded-full">
+            <h1 className="text-2xl">{inventoryItems.find(item => item.id == selectedItem).quantity}</h1>
+            <button className="text-green-500 font-bold p-[5px] shadow-lg border rounded-full" onClick={handleIcrement}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -162,11 +213,11 @@ const Inventory = () => {
             </button>
           </div>
           <div className="flex justify-center my-[30px]">
-            <button className="w-[200PX] p-[10px] shadow-lg bg-blue-500 text-white rounded-full">
+            <button className="w-[200PX] p-[10px] shadow-lg bg-blue-500 text-white rounded-full" onClick={handleSave}>
               Save Changes
             </button>
           </div>
-        </div>
+        </div>}
 
         <div className="min-w-[700px]">
           <div className="flex justify-between px-[20px] mb-[20px] items-center">
@@ -188,7 +239,7 @@ const Inventory = () => {
               </thead>
               <tbody className="">
                 {inventoryItems.map((item) => (
-                  <tr key={item.id} className="border-b hover:bg-gray-200">
+                  <tr key={item.id} className={`border-b cursor-pointer ${selectedItem == item.id ? "bg-purple-bg" : ""}`} onClick={() => handleItemClick(item)}>
                     <td className="px-4 py-2 text-center">#{item.id}</td>
                     <td className="px-4 py-2">{item.name}</td>
                     <td className="px-4 py-2 text-center">
@@ -248,6 +299,7 @@ const Inventory = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

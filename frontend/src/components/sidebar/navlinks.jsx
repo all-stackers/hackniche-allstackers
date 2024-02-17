@@ -20,7 +20,7 @@ const Navlinks = ({ link, text, logo }) => {
 
   return (
     <div
-      className={`flex flex-row pl-[40px] py-[10px] gap-x-[20px] font-medium px-[16px] py-[8px] box-border items-center ${
+      className={`flex flex-row pl-[40px] py-[12px] gap-x-[20px] font-medium px-[16px] box-border items-center ${
         isActive(link) && "bg-red-200 fade-bg"
       }  rounded-r-full cursor-pointer`}
       onClick={onClickHandler}

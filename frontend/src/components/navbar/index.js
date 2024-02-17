@@ -13,7 +13,7 @@ const navbar = () => {
             </div>
 
             <div className='flex flex-row gap-x-[20px] ml-auto'>
-                <Navlink name='Home' link='/' />
+                {/* <Navlink name='Home' link='/' /> */}
             </div>
         </div>
     )
