@@ -1,7 +1,27 @@
 import { useEffect, useState } from "react";
 
 export default function MapContainer() {
+  const [error, setError] = useState(null);
   const [location, setLocation] = useState(null);
+  const [stops, setStops] = useState([]);
+
+  useEffect(() => {
+    // Retrieve stops from local storage
+    const storedStops = localStorage.getItem("stops");
+
+    // Check if stops exist in local storage
+    if (storedStops) {
+      const parsedStops = JSON.parse(storedStops);
+      const waypoints = [];
+      parsedStops?.forEach((stop) => {
+        waypoints.push({
+          location: { lat: stop.lat, lng: stop.lng },
+          stopover: true,
+        });
+      });
+      setStops(waypoints);
+    }
+  }, []);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -22,10 +42,16 @@ export default function MapContainer() {
       }
     );
   }, []);
-
-  const position = { lat: 19.115919, lng: 72.826065 };
-
+  console.log(stops);
   useEffect(() => {
+    if (!window.google || !window.google.maps) {
+      // Google Maps API hasn't loaded yet
+      return;
+    }
+
+    //get the selected stops in the local storage
+
+    const position = { lat: 19.115919, lng: 72.826065 };
     const map = new window.google.maps.Map(document.getElementById("map"), {
       center: position,
       zoom: 14,
@@ -43,20 +69,13 @@ export default function MapContainer() {
     const directionsRenderer = new window.google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
 
-    const position2 = { lat: 19.107138, lng: 72.837243 };
-
     directionsService.route(
       {
         origin: position,
-        destination: position2,
+        destination: position,
         travelMode: window.google.maps.TravelMode.DRIVING,
 
-        waypoints: [
-          {
-            location: { lat: 19.130626, lng: 72.822306 },
-            stopover: true,
-          },
-        ],
+        waypoints: stops,
       },
       (response, status) => {
         if (status === "OK") {
@@ -66,7 +85,7 @@ export default function MapContainer() {
         }
       }
     );
-  }, [position]);
+  }, [location]);
 
-  return <div id="map" style={{ width: "100%", height: "100vh" }}></div>;
+  return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
 }
