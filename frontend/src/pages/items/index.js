@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router'
 
 const FoodCard = ({ food }) => {
+   
   return (
     <div className="w-64 bg-white rounded-lg shadow-md m-4">
-      <img src={food.photos[0]} alt={food.food_name} className="w-full h-36 object-cover rounded-t-lg" />
+      <img src={food.photos[0]} alt={food.food_name} className="w-full h-40 object-cover rounded-t-lg" />
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2">{food.food_name}</h2>
-        <p className="text-gray-700 mb-4">{food.description}</p>
+        <p className="text-gray-700 mb-4 text-[12px]">{food.description}</p>
         <p className="text-gray-800 font-semibold">${food.price}</p>
       </div>
     </div>
@@ -15,6 +17,7 @@ const FoodCard = ({ food }) => {
 
 const FoodCardList = () => {
   const [foodData, setFoodData] = useState([]);
+  const router = useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,10 +34,17 @@ const FoodCardList = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap justify-center">
-      {foodData.map(food => (
-        <FoodCard key={food.food_name} food={food} />
-      ))}
+    <div>
+      <div className="flex flex-wrap ">
+        {foodData.map(food => (
+          <FoodCard key={food.food_name} food={food} />
+        ))}
+      </div>
+      <button 
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold w-[45px] h-[45px] rounded-[50px] fixed bottom-8 right-8 text-[30px]"
+      onClick={() => {router.push('/addMenu')}}>
+        +
+      </button>
     </div>
   );
 };
