@@ -113,7 +113,7 @@ class UpdateOrderStatus(Resource):
                     if item["name"] == "Tomato":
                         quantity = item["quantity"]
                         quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 1)
+                        quantity[0] = str(int(quantity[0]) - 0.1)
                         item["quantity"] = " ".join(quantity)
 
                     if item["name"] == "Pizza Sauce":

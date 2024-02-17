@@ -127,7 +127,7 @@ const Inventory = () => {
         {inventoryItems.length > 1 && <div className=" w-[450px] border-r-[1px] shadow-l p-[20px] pr-[30px]">
           <div className="flex justify-between items-center">
             <h1 className="mb-[10px] text-gray-800 text-[26px]">{inventoryItems.find(item => item.id == selectedItem).name}</h1>
-            <button 
+            {/* <button 
             className="items-center bg-red-200 border-red-500 px-[10px] border-[1px] flex rounded-full"
             onClick={()=>{router.push('https://blinkit.com/s/?q='+inventoryItems.find(item => item.id == selectedItem).name)}}>
               <svg
@@ -145,7 +145,9 @@ const Inventory = () => {
                 />
               </svg>
               Blink It
-            </button>
+            </button> */}
+
+            
           </div>
           <div className="flex justify-between my-[10px]">
             <div>
@@ -164,6 +166,18 @@ const Inventory = () => {
             </div>
           </div>
 
+          <div className="flex flex-row ml-auto items-center gap-x-[20px] mt-[40px]">
+            <div className="ml-auto">
+            Buy now: 
+            </div>
+            <img
+              src="/assets/images/blinkit.svg"
+              className="cursor-pointer w-[35px] h-[35px]"
+              onClick={() => {
+                window.open('https://blinkit.com/s/?q=' + inventoryItems.find(item => item.id == selectedItem).name, '_blank');
+                }}
+              />
+          </div>
           {/* <div className="flex justify-center items-center my-[10px]">
             <span className="h-[10px] w-[10px] rounded-full bg-orange-400"></span>
             <p className="text-gray-600 ml-[10px]">Low Inventory</p>
@@ -178,7 +192,7 @@ const Inventory = () => {
           </div> */}
 
           <img
-            className=" mx-auto h-[200px] w-[200px] mt-[60px] mb-[30px]"
+            className=" mx-auto h-[200px] w-[200px] mt-[25px] mb-[30px]"
             src={inventoryItems.find(item => item.id == selectedItem).photo}
           ></img>
           <div className="flex justify-center gap-x-[15px] my-[15px] items-center">
@@ -276,7 +290,7 @@ const Inventory = () => {
                           />
                         </svg>
                       </button>
-                      <button
+                      {/* <button
                         onClick={() => handleDelete(item.id)}
                         className="focus:outline-none"
                       >
@@ -294,7 +308,7 @@ const Inventory = () => {
                             d="M6 18L18 6M6 6l12 12"
                           />
                         </svg>
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}

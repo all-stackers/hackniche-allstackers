@@ -13,6 +13,8 @@ from resources.Post import (Hashtags, Caption)
 from resources.Cloudinary import Cloudinary
 from resources.AskAI import AskAI
 from resources.Notification import Notification
+from resources.LegalConsultant import LegalConsultant
+from resources.review import Review
 import requests
 import json
 import time
@@ -39,6 +41,8 @@ api.add_resource(AskAI, "/askAI")
 api.add_resource(Notification, '/notification')
 api.add_resource(OrderStatus, '/getorderstatus')
 api.add_resource(OrderStatus2, '/getorderstatus2')
+api.add_resource(LegalConsultant, '/legalconsultant')
+api.add_resource(Review, "/review")
 
 
 

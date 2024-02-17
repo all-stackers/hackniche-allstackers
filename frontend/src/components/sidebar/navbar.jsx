@@ -24,7 +24,7 @@ const Sidebar = () => {
         });
       })
       .catch(error => {
-        
+
       });
   }
 
@@ -52,6 +52,7 @@ const Sidebar = () => {
           <Navlinks link="route-planning" logo="route.png" text="Route Planning" />
           <Navlinks link="analytics" logo="analysis.png" text="Analytics" />
           <Navlinks link="social-media" logo="instagram.png" text="Social Media" />
+          <Navlinks link="legal-consultant" logo="law.png" text="Legal Consultant"/>
           {/* <Navlinks link="youtube" logo="youtube.png" text="Youtube" /> */}
           <div className="flex bg-[#4d72c4] text-white px-2 py-2 rounded-lg w-[60%] ml-[30px] cursor-pointer mt-auto">
               <img

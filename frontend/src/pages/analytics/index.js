@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { Pie } from './pie';
 import BarGraph from './bar';
-import Map from './map';;
+import Map from './map';
+import Rating from '@mui/material/Rating';
 
 const MyComponent = () => {
   // State to store reviews
@@ -64,6 +65,24 @@ const MyComponent = () => {
     "#80D3E6",
   ];
 
+  const fetch_reviews = () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("http://localhost:5000/review", requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        setReviews(result.data)
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  useEffect(() => {
+    fetch_reviews();
+  }, []);
+
 
   return (
     <div className="flex  p-4 h-screen w-full">
@@ -89,13 +108,17 @@ const MyComponent = () => {
         {/* Review Section */}
         <div className="review flex flex-col ">
           {reviews.map((review) => (
-            <div key={review.id} className="review-item border-b-2 border-gray-400 py-2">
+            <div key={review.review_id} className="review-item border-b-2 border-gray-400 py-2">
               <div className="flex justify-between">
-                <div className="reviewer-name font-bold">{review.name}</div>
-                <div className="rating">{review.rating}</div>
+                <div className="reviewer-name font-bold">{review.customer_name}</div>
+                <div className="rating">
+                  {/* print the rating * star */}
+                  {/* {review.rating */}
+                  <Rating name="read-only" value={review.rating} readOnly />
+                </div>
               </div>
               <div className="review-description text-gray-600 text-sm">
-                {review.description}
+                {review.review}
               </div>
               <div className="reply-section mt-2">
                 <textarea
