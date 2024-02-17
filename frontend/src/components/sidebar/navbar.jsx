@@ -26,7 +26,12 @@ const Sidebar = () => {
           <Navlinks link="analytics" logo="analysis.png" text="Analytics" />
           <Navlinks link="social-media" logo="instagram.png" text="Social Media" />
           {/* <Navlinks link="youtube" logo="youtube.png" text="Youtube" /> */}
-
+          <div className="flex bg-[#4d72c4] text-white px-2 py-2 rounded-lg w-[60%] ml-[20px] cursor-pointer">
+            
+          <img
+                  className="mr-[5px]"
+                  src="assets/images/chat.svg"
+                />Send notification</div>   
           <div className="flex gap-x-[15px] items-center border-[1px] m-[10px] py-[10px] rounded-[10px] px-[20px] mt-auto mb-[40px]">
             <img className="h-[35px]" src="assets/images/foodtruck.png" />
             <div>
