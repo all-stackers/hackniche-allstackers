@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScaleLoader } from "react-spinners";
+import { useRouter } from "next/router";
 
 const SocialMedia = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -15,6 +16,9 @@ const SocialMedia = () => {
   const [hashtagLoading, setHashtagLoading] = useState(false);
   const [twitterText, setTwitterText] = useState("");
   const [twitterHashtags, setTwitterHashtags] = useState([]);
+  const [instaPosting, setInstaPosting] = useState(false);
+
+  const router = useRouter();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -129,6 +133,8 @@ const SocialMedia = () => {
       redirect: "follow",
     };
 
+    setInstaPosting(true);
+
     fetch("http://localhost:5000/cloudinary", requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -158,8 +164,12 @@ const SocialMedia = () => {
 
         fetch("http://localhost:5000/instagramUpload", requestOptions)
           .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
+          .then((result) => {
+            // push to instagram url
+            router.push("https://www.instagram.com/allstackers/")
+          })
+          .catch((error) => console.log("error", error))
+          .finally(() => setInstaPosting(false));
       })
       .catch((error) => console.log("error", error));
 
@@ -372,12 +382,18 @@ const SocialMedia = () => {
                     </div>
                   </div>
                   <div className="w-[100%] flex flex-row">
-                    <button
-                      className="w-[200px] h-[30px] rounded-md bg-red-200 ml-auto mt-[20px] border border-red-500"
-                      onClick={postClickHandler}
-                    >
-                      Post
-                    </button>
+                    {!instaPosting ?
+                      <button
+                        className="w-[200px] h-[30px] rounded-md bg-red-200 ml-auto mt-[20px] border border-red-500"
+                        onClick={postClickHandler}
+                      >
+                        Post
+                      </button>
+                    :
+                      <div className="flex justify-center items-center w-[200px] h-[30px] rounded-md ml-auto mt-[20px] ">
+                        <ScaleLoader color="#3670FF"/>
+                      </div>
+                    }
                   </div>
               </Tabs>
             </TabsContent>
