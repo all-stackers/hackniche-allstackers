@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Pie } from './pie';
 import BarGraph from './bar';
+import Map from './map';;
 
 const MyComponent = () => {
   // State to store reviews
@@ -80,7 +81,9 @@ const MyComponent = () => {
           <BarGraph data={weekData} />
           </div>
         </div>
-        <div className="sub-section2 h-1/2 bg-yellow-200"></div>
+        <div className="sub-section2 w-[100%] h-1/2 ">
+            <Map />
+        </div>
       </div>
       <div className="section2 w-[30%] p-4 overflow-hidden overflow-y-scroll">
         {/* Review Section */}
