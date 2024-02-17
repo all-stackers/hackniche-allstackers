@@ -106,6 +106,8 @@ const MyComponent = () => {
       </div>
       <div className="section2 w-[30%] p-4 overflow-hidden overflow-y-scroll">
         {/* Review Section */}
+        <h1 className='font-medium text-[18px] mb-[10px]'>User Reviews</h1>
+        <hr className='mb-[10px]'/>
         <div className="review flex flex-col ">
           {reviews.map((review) => (
             <div key={review.review_id} className="review-item border-b-2 border-gray-400 py-2">
