@@ -37,7 +37,7 @@ const Order = () => {
         setLoading(false);
         toast.success("Order place successfully", {
           autoClose: 1000,
-            onClose: () => router.push(`/user/order/${orderId}`),
+          onClose: () => router.push(`/user/order/${orderId}`),
         });
       })
       .catch((error) => console.log("error", error));
@@ -113,7 +113,8 @@ const Order = () => {
           {loading ? <ScaleLoader color="white" /> : "Order now"}
         </button>
       </div>
-      <ToastContainer />
+
+      <ToastContainer className={"mt-[40px]"} />
     </div>
   );
 };

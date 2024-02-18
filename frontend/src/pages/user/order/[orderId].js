@@ -86,7 +86,7 @@ const Success = () => {
           Cancel
         </button>
       </div>
-      <ToastContainer />
+      <ToastContainer className={"mt-[40px]"} />
     </div>
   );
 };
