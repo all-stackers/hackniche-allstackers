@@ -78,3 +78,14 @@ class FoodTruck(db.Document):
         
         except Exception as e:
             return {"error": True, "message": str(e)}
+        
+    @classmethod
+    def update_full_inventory(cls, mobile_number, inventory):
+        try:
+            foodtruck = cls.objects(mobile_number=mobile_number).first()
+            foodtruck.inventory = inventory
+            foodtruck.save()
+            return {"error": False, "data": cls.objects()}
+        
+        except Exception as e:
+            return {"error": True, "message": str(e)}

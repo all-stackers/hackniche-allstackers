@@ -4,10 +4,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router'
 
 const Inventory = () => {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState("1");
+  const router = useRouter()
 
   const handleEdit = (id) => {
     // Handle edit action here
@@ -125,7 +127,9 @@ const Inventory = () => {
         {inventoryItems.length > 1 && <div className=" w-[450px] border-r-[1px] shadow-l p-[20px] pr-[30px]">
           <div className="flex justify-between items-center">
             <h1 className="mb-[10px] text-gray-800 text-[26px]">{inventoryItems.find(item => item.id == selectedItem).name}</h1>
-            <button className="items-center bg-red-200 border-red-500 px-[10px] border-[1px] flex rounded-full">
+            {/* <button 
+            className="items-center bg-red-200 border-red-500 px-[10px] border-[1px] flex rounded-full"
+            onClick={()=>{router.push('https://blinkit.com/s/?q='+inventoryItems.find(item => item.id == selectedItem).name)}}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -140,8 +144,10 @@ const Inventory = () => {
                   d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
                 />
               </svg>
-              Ask AI
-            </button>
+              Blink It
+            </button> */}
+
+            
           </div>
           <div className="flex justify-between my-[10px]">
             <div>
@@ -160,6 +166,18 @@ const Inventory = () => {
             </div>
           </div>
 
+          <div className="flex flex-row ml-auto items-center gap-x-[20px] mt-[40px]">
+            <div className="ml-auto">
+            Buy now: 
+            </div>
+            <img
+              src="/assets/images/blinkit.svg"
+              className="cursor-pointer w-[35px] h-[35px]"
+              onClick={() => {
+                window.open('https://blinkit.com/s/?q=' + inventoryItems.find(item => item.id == selectedItem).name, '_blank');
+                }}
+              />
+          </div>
           {/* <div className="flex justify-center items-center my-[10px]">
             <span className="h-[10px] w-[10px] rounded-full bg-orange-400"></span>
             <p className="text-gray-600 ml-[10px]">Low Inventory</p>
@@ -174,7 +192,7 @@ const Inventory = () => {
           </div> */}
 
           <img
-            className=" mx-auto h-[200px] w-[200px] mt-[60px] mb-[30px]"
+            className=" mx-auto h-[200px] w-[200px] mt-[25px] mb-[30px]"
             src={inventoryItems.find(item => item.id == selectedItem).photo}
           ></img>
           <div className="flex justify-center gap-x-[15px] my-[15px] items-center">
@@ -272,7 +290,7 @@ const Inventory = () => {
                           />
                         </svg>
                       </button>
-                      <button
+                      {/* <button
                         onClick={() => handleDelete(item.id)}
                         className="focus:outline-none"
                       >
@@ -290,7 +308,7 @@ const Inventory = () => {
                             d="M6 18L18 6M6 6l12 12"
                           />
                         </svg>
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))}
