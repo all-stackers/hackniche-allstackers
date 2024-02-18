@@ -6,6 +6,7 @@ import datetime
 from twilio.rest import Client
 import random
 from flask import request
+import pytz
 
 class Orders(Resource):
     def post(self):
@@ -20,10 +21,12 @@ class Orders(Resource):
             args["order_id"] = "AAKF" + str(len(OrderModel.objects) + 1)
             args["status"] = "received"
 
-            now = datetime.datetime.now()
-            args["time"] = now.strftime("%I:%M:%S %p")
+            utc_now = datetime.datetime.utcnow()
+            ist_now = utc_now.astimezone(pytz.timezone('Asia/Kolkata'))
 
-            args["date"] = now.strftime("%d %b, %Y")
+            args["time"] = ist_now.strftime("%I:%M:%S %p")
+
+            args["date"] = ist_now.strftime("%d %b, %Y")
 
             response = OrderModel.add_order(args)
             if response["error"]:
