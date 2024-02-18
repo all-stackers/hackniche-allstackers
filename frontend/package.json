@@ -38,7 +38,9 @@
     "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.4",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "translate": "^2.0.2"
+    
   },
   "devDependencies": {
     "autoprefixer": "^10.4.17",

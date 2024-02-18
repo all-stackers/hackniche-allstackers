@@ -79,12 +79,6 @@ class UpdateOrderStatus(Resource):
                 to='whatsapp:+919004690126'
                 )
 
-                # pizza dough
-                # pizza sauce
-                # cheese
-                # paneer
-                # tomato
-
                 response = FoodTruckModel.get_foodtruck(mobile_number="9137357003")
                 if response["error"]:
                     return response
@@ -93,37 +87,35 @@ class UpdateOrderStatus(Resource):
                 new_inventory = []
                 for item in inventory:
                     if item["name"] == "Pizza Dough":
-                        # quantity is like 10 kg
-                        # separate the number and text then reduce the number by 1 and again join them
                         quantity = item["quantity"]
                         quantity = quantity.split(" ")
                         quantity[0] = str(int(quantity[0]) - 1)
                         item["quantity"] = " ".join(quantity)
                         print(item["quantity"])
 
-                    if item["name"] == "Cheese":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 1)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Cheese":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 1)
+                    #     item["quantity"] = " ".join(quantity)
 
-                    if item["name"] == "Paneer":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 1)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Paneer":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 1)
+                    #     item["quantity"] = " ".join(quantity)
 
-                    if item["name"] == "Tomato":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 0.1)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Tomato":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 0.1)
+                    #     item["quantity"] = " ".join(quantity)
 
-                    if item["name"] == "Pizza Sauce":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 3)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Pizza Sauce":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 3)
+                    #     item["quantity"] = " ".join(quantity)
 
                     new_inventory.append(item)
                     
@@ -131,7 +123,7 @@ class UpdateOrderStatus(Resource):
                 if response["error"]:
                     return response
             
-            return {"error": False, "data": json.loads(response["data"].to_json())}
+            return {"error": False, "data": json.loads(response["data"].to_json()), "orders": updated_order_list}
 
         except Exception as e:
             return {"error": True, "message": str(e)}

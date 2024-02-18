@@ -121,7 +121,7 @@ def upload():
 
     media_type = data.get('media_type', '').upper()
     media_url = data.get('media_url', '')
-    access_token = 'EAALwZACV0gEoBOZCDZB0ddAbPAyb3NAHbzgrZCHZBNPZBBZAZA2jDiU1pJZAjYhMsmcbzAZAqwau2bSI9yBQGrzQTKUIAS57KsQ5LVziYdKBL2UwW5fsB93v4ZAUSDeqMVALNTzNjPtpKwDGd77cXxhQwcTeoy4QdSVQmckZCubZBzV3WzCpCfkSjHDb3G7mNJti7dNXZAKb5Em8KgdMRbHKk3zBgC9ATwWgZDZD'
+    access_token = 'EAALwZACV0gEoBOZBRygjeUNQrzO14vWLQc8J94nfstuPIuFwdHGBLZCBbSZCMDVrZCgdeoC74nx5RUIMkI4eZAHErZBB2Ruek1ZBKJa4gkQstfXizugZCZCi2LniGHMqceBOX80TXE3dd1VGUZASSmUZCFG0g5NqBiMhkMk5TVmR9uHoNcmkbo6AXsxOZAdA2BG8tuH5G'
     insta_user_id ='17841464682383816'
     caption = data.get('caption', '')
 

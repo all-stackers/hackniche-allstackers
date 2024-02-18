@@ -1,14 +1,18 @@
 import React from "react";
 import { ScaleLoader } from "react-spinners";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
+import translate from "translate";
 
 const foodName = "Farmhouse Pizza";
 const foodPrice = 200;
 
 const Order = () => {
+  const [language, setLanguage] = useState("en");
+  const [prevLanguage, setPrevLanguage] = useState("en");
+  const [engArr, setEngArr] = useState([]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const handleOrderButton = () => {
@@ -42,12 +46,67 @@ const Order = () => {
       })
       .catch((error) => console.log("error", error));
   };
+
+
+  const changeLang = async (lang) => {
+    const p = Array.from(document.getElementsByTagName('p'));
+    const h1 = Array.from(document.getElementsByTagName('h1'));
+    const h2 = Array.from(document.getElementsByTagName('h2'));
+    const h3 = Array.from(document.getElementsByTagName('h3'));
+    const a = Array.from(document.getElementsByTagName('a'));
+    const div = Array.from(document.getElementsByTagName('div'));
+    const button = Array.from(document.getElementsByTagName('button'));
+    const text = p.concat(h1, h2, h3, a, button)
+    let arr = []
+    try {
+      for (const element of text) {
+        console.log(element.textContent)
+        if ((prevLanguage !== "en") && (lang !== "en")) {
+          if (engArr.length > 0) {
+            if (element.id !== 'rakshak' && !element.textContent.includes("Rakshakરીત")) {
+              const data = engArr.find(item => item.lang1 == element.textContent)
+              element.textContent = (await translate(data.lang2, lang))
+              arr.push({ lang1: element.textContent, lang2: data.lang2 })
+            }
+          } else {
+            alert("Please wait for the page to load")
+            break
+          }
+        } else {
+          if (lang !== "en") {
+            if (element.id !== 'rakshak' && !element.textContent.includes("Rakshakરીત")) {
+              const temp = element.textContent;
+              element.textContent = (await translate(element.textContent, lang));
+              arr.push({ lang1: element.textContent, lang2: temp })
+            }
+          } else if (engArr.length > 0) {
+            if (element.id !== 'rakshak' && !element.textContent.includes("Rakshakરીત")) {
+              const data = engArr.find(item => item.lang1 == element.textContent)
+              element.textContent = data.lang2
+            }
+          }
+        }
+      }
+    } catch (error) {
+
+    }
+    setPrevLanguage(lang)
+    if (arr.length > 0)
+      setEngArr(arr)
+  }
+  useEffect(() => {
+    changeLang(language)
+  }, [language])
+
   return (
     <div className="bg-[#f4f7fd] h-screen">
       <div className="bg-white shadow-md w-full px-[20px] pt-[50px] py-[20px]">
         <h1 className="font-bold">B.Tech Food Truck</h1>
+        
       </div>
       <div className="p-[20px] my-[10px] ">
+      <button className=" bg-[#57a0f3] py-[2px] px-[4px] text-white rounded-md m-[10px]" onClick={()=>{setLanguage("hi")}}>Hindi</button>
+      <button className=" bg-[#57a0f3] py-[2px] px-[4px] text-white rounded-md" onClick={()=>{setLanguage("mr")}}>Marathi</button>
         <div className="bg-blue-200 p-[10px] rounded-[10px]">
           <p className="font-bold text-blue-500">
             🥳 You saved ₹100 on this order
@@ -113,7 +172,6 @@ const Order = () => {
           {loading ? <ScaleLoader color="white" /> : "Order now"}
         </button>
       </div>
-
       <ToastContainer className={"mt-[40px]"} />
     </div>
   );
