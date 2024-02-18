@@ -24,4 +24,4 @@ api.add_resource(Inventory, "/addToInventory")
 api.add_resource(UpdateInventory, "/updateInventory")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+   app.run(host='0.0.0.0', port=5000)
