@@ -2,6 +2,10 @@ import * as React from "react";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
+import { ScaleLoader } from "react-spinners";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const labels = {
   0.5: "Useless",
@@ -24,13 +28,42 @@ export default function HoverRating() {
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
   const [review, setReview] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   const handleReviewChange = (e) => {
     setReview(e.target.value);
   };
   const handleSubmit = () => {
+    setLoading(true);
     console.log("Rating: ", value);
     console.log("Review: ", review);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      rating: value,
+      review: review,
+      customer_name: "Jhenil Parihar",
+      mobile_number: "9004690126",
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("https://hackniche-nsrl.onrender.com/review", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setLoading(false);
+        toast.success("Review Sent", {
+          autoClose: 1000,
+        });
+      })
+      .catch((error) => console.log("error", error));
   };
 
   return (
@@ -77,9 +110,11 @@ export default function HoverRating() {
           className="mt-[50px] bg-blue-400 border shadow-lg text-white w-full p-[10px] rounded-[10px] mt-[10px]"
           onClick={handleSubmit}
         >
-          Submit
+          {loading ? <ScaleLoader color="#ffffff" /> : "Submit"}
         </button>
       </div>
+
+      <ToastContainer />
     </div>
   );
 }

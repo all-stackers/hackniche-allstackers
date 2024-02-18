@@ -22,7 +22,7 @@ const OrderDetails = () => {
   const dateTime = date + " " + time;
 
   const checkOrderStatus = () => {
-    fetch(`http://localhost:5000/getorderstatus2?order_id=${orderId}`)
+    fetch(`https://hackniche-nsrl.onrender.com/getorderstatus2?order_id=${orderId}`)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);

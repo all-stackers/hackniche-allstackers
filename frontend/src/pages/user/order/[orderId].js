@@ -11,7 +11,7 @@ const Success = () => {
   const { orderId } = router.query;
 
   const checkOrderStatus = () => {
-    fetch(`http://localhost:5000/getorderstatus?order_id=${orderId}`)
+    fetch(`https://hackniche-nsrl.onrender.com/getorderstatus?order_id=${orderId}`)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);

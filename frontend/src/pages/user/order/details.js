@@ -29,7 +29,7 @@ const Order = () => {
       redirect: "follow",
     };
 
-    fetch("http://localhost:5000/orders", requestOptions)
+    fetch("https://hackniche-nsrl.onrender.com/orders", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data.order_id);
