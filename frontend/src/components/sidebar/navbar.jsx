@@ -48,9 +48,9 @@ const Sidebar = () => {
         <div className="flex flex-col gap-y-[10px] text-[14px] mt-[10px] h-[calc(100vh-80px)]">
           <Navlinks link="inventory" logo="goods.png" text="Inventory Management" />
           <Navlinks link="orders" logo="shopping-bag.png" text="Order Management" />
+          <Navlinks link="analytics" logo="analysis.png" text="Analytics" />
           <Navlinks link="items" logo="restaurant.png" text="Food Menu" />
           <Navlinks link="route-planning" logo="route.png" text="Route Planning" />
-          <Navlinks link="analytics" logo="analysis.png" text="Analytics" />
           <Navlinks link="social-media" logo="instagram.png" text="Social Media" />
           <Navlinks link="legal-consultant" logo="law.png" text="Legal Consultant"/>
           {/* <Navlinks link="youtube" logo="youtube.png" text="Youtube" /> */}
