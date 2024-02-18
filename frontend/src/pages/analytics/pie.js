@@ -6,7 +6,7 @@ export function Pie({ label, color, pieData }) {
     labels: label,
     datasets: [
       {
-        label: "# of Votes",
+        label: "# of Sales",
         data: pieData,
         backgroundColor: color,
       },
@@ -26,7 +26,7 @@ export function Pie({ label, color, pieData }) {
     },
   };
 
-  return <Doughnut data={data} options={options} />;
+  return <Doughnut className="w-[250px]" data={data} options={options}  />;
 }
 
 export default Pie;

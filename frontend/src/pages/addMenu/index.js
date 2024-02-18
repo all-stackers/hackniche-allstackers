@@ -197,8 +197,8 @@ const RestaurantMenu = () => {
             {/* Section 1 */}
             <div className={`w-[40%] flex flex-col items-center justify-center bg-gray-100 p-8 ${menuDetails.dishImage ? '' : 'hidden'}`}>
                 <h2 className="text-3xl mb-8 text-[#285dc6]">Menu</h2>
-                <div className="w-60% h-60 bg-gray-200 mb-4">
-                    <img src={menuDetails.dishImage} alt={menuDetails.dishName} className="w-full h-full object-cover" />
+                <div className="w-60% h-60  mb-4">
+                    <img src={menuDetails.dishImage} alt={menuDetails.dishName} className="w-full rounded-[20px] h-full object-cover" />
                 </div>
                 <h3 className="text-xl mb-2">{menuDetails.dishName}</h3>
                 <p className="text-sm font-semibold mb-1">Price: </p>

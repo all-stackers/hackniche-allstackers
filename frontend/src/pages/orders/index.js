@@ -138,7 +138,7 @@ const index = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {orders.map((order, index) => {
+                            {orders?.map((order, index) => {
                                 return (
                                     <TableRow>
                                         <TableCell>{order.order_id}</TableCell>
@@ -226,7 +226,7 @@ const index = () => {
                         </TableHeader>
                         <TableBody>
                             {/* filter the orders so that only the orders with status == order received are there and then map them */}
-                            {orders.filter(order => order.status == "received").map((order, index) => {
+                            {orders?.filter(order => order.status == "received").map((order, index) => {
 
                                 return (
                                     <TableRow>
@@ -314,7 +314,7 @@ const index = () => {
                         </TableHeader>
                         <TableBody>
                             {/* filter the orders so that only the orders with status == order received are there and then map them */}
-                            {orders.filter(order => order.status == "pending").map((order, index) => {
+                            {orders?.filter(order => order.status == "pending").map((order, index) => {
 
                                 return (
                                     <TableRow>
@@ -402,7 +402,7 @@ const index = () => {
                         </TableHeader>
                         <TableBody>
                             {/* filter the orders so that only the orders with status == order received are there and then map them */}
-                            {orders.filter(order => order.status == "completed").map((order, index) => {
+                            {orders?.filter(order => order.status == "completed").map((order, index) => {
 
                                 return (
                                     <TableRow>
