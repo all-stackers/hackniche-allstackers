@@ -9,7 +9,7 @@ const FoodCard = ({ food }) => {
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2">{food.food_name}</h2>
         <p className="text-gray-700 mb-4 text-[12px]">{food.description}</p>
-        <p className="text-gray-800 font-semibold">${food.price}</p>
+        <p className="text-gray-800 font-semibold">₹ {food.price}</p>
       </div>
     </div>
   );

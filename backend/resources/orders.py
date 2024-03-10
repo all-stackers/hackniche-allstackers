@@ -6,6 +6,7 @@ import datetime
 from twilio.rest import Client
 import random
 from flask import request
+import pytz
 
 class Orders(Resource):
     def post(self):
@@ -20,10 +21,12 @@ class Orders(Resource):
             args["order_id"] = "AAKF" + str(len(OrderModel.objects) + 1)
             args["status"] = "received"
 
-            now = datetime.datetime.now()
-            args["time"] = now.strftime("%I:%M:%S %p")
+            utc_now = datetime.datetime.utcnow()
+            ist_now = utc_now.astimezone(pytz.timezone('Asia/Kolkata'))
 
-            args["date"] = now.strftime("%d %b, %Y")
+            args["time"] = ist_now.strftime("%I:%M:%S %p")
+
+            args["date"] = ist_now.strftime("%d %b, %Y")
 
             response = OrderModel.add_order(args)
             if response["error"]:
@@ -76,12 +79,6 @@ class UpdateOrderStatus(Resource):
                 to='whatsapp:+919004690126'
                 )
 
-                # pizza dough
-                # pizza sauce
-                # cheese
-                # paneer
-                # tomato
-
                 response = FoodTruckModel.get_foodtruck(mobile_number="9137357003")
                 if response["error"]:
                     return response
@@ -90,37 +87,35 @@ class UpdateOrderStatus(Resource):
                 new_inventory = []
                 for item in inventory:
                     if item["name"] == "Pizza Dough":
-                        # quantity is like 10 kg
-                        # separate the number and text then reduce the number by 1 and again join them
                         quantity = item["quantity"]
                         quantity = quantity.split(" ")
                         quantity[0] = str(int(quantity[0]) - 1)
                         item["quantity"] = " ".join(quantity)
                         print(item["quantity"])
 
-                    if item["name"] == "Cheese":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 1)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Cheese":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 1)
+                    #     item["quantity"] = " ".join(quantity)
 
-                    if item["name"] == "Paneer":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 1)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Paneer":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 1)
+                    #     item["quantity"] = " ".join(quantity)
 
-                    if item["name"] == "Tomato":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 0.1)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Tomato":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 0.1)
+                    #     item["quantity"] = " ".join(quantity)
 
-                    if item["name"] == "Pizza Sauce":
-                        quantity = item["quantity"]
-                        quantity = quantity.split(" ")
-                        quantity[0] = str(int(quantity[0]) - 3)
-                        item["quantity"] = " ".join(quantity)
+                    # if item["name"] == "Pizza Sauce":
+                    #     quantity = item["quantity"]
+                    #     quantity = quantity.split(" ")
+                    #     quantity[0] = str(int(quantity[0]) - 3)
+                    #     item["quantity"] = " ".join(quantity)
 
                     new_inventory.append(item)
                     
@@ -128,7 +123,7 @@ class UpdateOrderStatus(Resource):
                 if response["error"]:
                     return response
             
-            return {"error": False, "data": json.loads(response["data"].to_json())}
+            return {"error": False, "data": json.loads(response["data"].to_json()), "orders": updated_order_list}
 
         except Exception as e:
             return {"error": True, "message": str(e)}

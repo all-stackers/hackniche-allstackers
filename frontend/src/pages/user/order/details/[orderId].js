@@ -22,7 +22,9 @@ const OrderDetails = () => {
   const dateTime = date + " " + time;
 
   const checkOrderStatus = () => {
-    fetch(`https://hackniche-nsrl.onrender.com/getorderstatus2?order_id=${orderId}`)
+    fetch(
+      `https://hackniche-nsrl.onrender.com/getorderstatus2?order_id=${orderId}`
+    )
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -75,7 +77,7 @@ const OrderDetails = () => {
           Go Back
         </button>
       </div>
-      <ToastContainer />
+      <ToastContainer className={"mt-[40px]"} />
     </div>
   );
 };
